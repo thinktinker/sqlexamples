@@ -87,31 +87,44 @@ JOIN languages l
 ON l.id = vl.language_id;
 
 -- display the total volunteered hours per volunteer
-SELECT SUM(vh.hours) as `Volunteered Hours`, v.surname
-FROM volunteers v
-JOIN volunteer_hours vh
-ON v.id = vh.volunteer_id
-GROUP BY volunteer_id;
+SELECT v.surname, SUM(vh.hours) AS `Volunteered hours`
+FROM volunteer_hours vh
+JOIN volunteers v
+ON vh.volunteer_id = v.id
+GROUP BY v.surname
+ORDER BY `Volunteered hours` DESC;
 
 -- display the average volunteered hours per volunteer
 SELECT v.id AS `Volunteer ID`, AVG(vh.hours) as `Average Volunteered Hours`, v.surname
 FROM volunteers v
 JOIN volunteer_hours vh
 ON v.id = vh.volunteer_id
-GROUP BY volunteer_id;
+GROUP BY v.surname;
 
--- Q: display the most hours worked by a volunteer
--- Q: display the least hours worked by a volunteer
+-- display the most hours worked by a volunteer
+SELECT MAX(vh.hours) as `Most Hours Worked`, v.surname
+FROM volunteer_hours vh
+JOIN volunteers v
+ON v.id = vh.volunteer_id
+GROUP BY v.surname;
+
+-- display the least hours worked by a volunteer
+SELECT MIN(vh.hours) as `Least Hours Worked`, v.surname
+FROM volunteer_hours vh
+JOIN volunteers v
+ON v.id = vh.volunteer_id
+GROUP BY v.surname;
 
 -- display the cumulative volunteer hours from all volunteers
-SELECT SUM(`Total Hours Volunteered`) as `Total Hours Volunteered`
-FROM (
-    SELECT SUM(vh.hours) as `Total Hours Volunteered`, v.surname
+SELECT SUM(`Total Hours Volunteered`) AS "Cumulative Volunteer Hours"
+FROM(
+    SELECT SUM(vh.hours) as `Total Hours Volunteered`
     FROM volunteers v
     JOIN volunteer_hours vh
     ON v.id = vh.volunteer_id
-    GROUP BY volunteer_id
+    GROUP BY vh.volunteer_id
 ) AS Cumulative;
+
 
 -- display the occasion each volunteer put up more than 1O hours per visit
 SELECT 
@@ -121,4 +134,5 @@ FROM volunteers v
 JOIN volunteer_hours vh
 ON v.id = vh.volunteer_id
 GROUP BY v.surname;
+
 
