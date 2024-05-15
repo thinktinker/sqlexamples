@@ -116,3 +116,23 @@ INSERT INTO volunteers_languages (volunteer_id, language_id) VALUES
 (3, 2),
 (3, 3),
 (4, 1);
+
+-- Create a table that records the hours put in by each volunteer 
+DROP TABLE IF EXISTS volunteer_hours;
+
+CREATE TABLE volunteer_hours (
+id INT NOT NULL AUTO_INCREMENT,
+volunteer_id INT NOT NULL,
+hours INT NOT NULL,
+created_at DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT fk_volunteer FOREIGN KEY (volunteer_id) REFERENCES volunteers(id),
+PRIMARY KEY (id)
+);
+
+INSERT INTO volunteer_hours (volunteer_id, hours) VALUES
+(1, 15),
+(1, 12),
+(2, 32),
+(3, 11),
+(3, 7),
+(3, 5);
