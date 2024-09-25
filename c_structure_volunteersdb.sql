@@ -9,6 +9,7 @@ USE volunteersdb;
 -- Normalisation gets rid of repeated data from an existing table(s)
 -- Reason: repeated data takes up space on the system, and difficult to update
 -- Imagine you have to update all fields where city = 'London' (by the multiples or millions)
+-- Ref: https://www.freecodecamp.org/news/database-normalization-1nf-2nf-3nf-table-examples/
 
 -- a)
 -- In the FIRST NORMAL, we create separate tables for columns cities and languages 
