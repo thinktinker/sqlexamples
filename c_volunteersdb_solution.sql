@@ -1,66 +1,58 @@
-SELECT * from salutations;
-SELECT * from languages;
-SELECT * from cities;
-SELECT * from volunteers;
-SELECT * from volunteers_languages;
+-- Active: 1715564057998@@127.0.0.1@3306@volunteersdb
+SELECT * FROM salutations;
+SELECT * FROM languages;
+SELECT * FROM cities;
+SELECT * FROM volunteers;
+SELECT * FROM volunteers_languages;
+SELECT * FROM volunteer_hours;
 
--- display the surname, mobile and city of each volunteer
+-- display the surname, mobile and city from volunteers and cities table
 SELECT v.surname, v.mobile, c.city
 FROM volunteers v, cities c
 WHERE v.city_id = c.id;
 
--- display the surname, mobile and city of each volunteer; this time using JOIN
+-- display the surname, mobile and city of each volunteer, using a JOIN
 SELECT v.surname, v.mobile, c.city
 FROM volunteers v
 JOIN cities c
 ON v.city_id = c.id;
 
--- display the volunteer(s) who lives in London
-SELECT *
+-- display volunteers who live in London
+SELECT v.surname, v.mobile, c.city
 FROM volunteers v
 JOIN cities c
 ON v.city_id = c.id
 WHERE c.city = "London";
 
--- display surname, mobile and language fof those who speak German
+-- display the surname, mobile and city of each volunteer of those who speak German
+-- volunteer + city + langauges (volunteers_langauges)
 SELECT v.surname, v.mobile, l.language
 FROM volunteers v
 JOIN volunteers_languages vl
 ON v.id = vl.volunteer_id
 JOIN languages l
 ON l.id = vl.language_id
-WHERE l.language = "German";
+WHERE LOWER(l.language) = "german";
 
--- display surname, mobile and language fof those who speak German
+-- displaying surname, mobile and city of volunters who speak German
+-- using the LIKE keyword with the wildcard character (%)
 SELECT v.surname, v.mobile, l.language
 FROM volunteers v
 JOIN volunteers_languages vl
 ON v.id = vl.volunteer_id
 JOIN languages l
 ON l.id = vl.language_id
-WHERE l.language LIKE '%German%';
+WHERE l.language LIKE "%German%";
 
--- refine the condition, display the count of volunteers from "London"
+-- display volunteer number in their specific city
+-- using COUNT() aggregate function, GROUP BY must be used
+-- using ORDER BY to list the data in ASC or DESC order (default, ASC)
 SELECT COUNT(v.city_id) AS "Number of Volunteers", c.city
 FROM volunteers v
 JOIN cities c
 ON v.city_id = c.id
-WHERE c.city LIKE "%London%"
 GROUP BY v.city_id
-ORDER BY c.city DESC; -- ASC or DESC
-
--- display the volunteer who speaks more than one language
--- GROUP BY ... HAVING to expand our query's condition
--- https://dev.mysql.com/doc/refman/8.0/en/problems-with-alias.html
-SELECT COUNT(l.language) AS `Languages Spoken`, v.surname
-FROM volunteers v
-JOIN volunteers_languages vl
-ON v.id = vl.volunteer_id
-JOIN languages l
-ON l.id = vl.language_id
-GROUP BY v.surname
-HAVING COUNT(l.language) > 1
-ORDER BY `Languages Spoken` DESC;
+ORDER BY c.city;
 
 -- display the number of distinct cities from volunteers
 SELECT COUNT(DISTINCT c.city) AS "Number of Cities"
@@ -68,23 +60,23 @@ FROM volunteers v
 JOIN cities c
 ON v.city_id = c.id;
 
--- display the distinct languages spoken by volunteers in the database
+-- display the distinct languages spoken by volunteers
 SELECT DISTINCT(l.language)
 FROM volunteers_languages vl
 JOIN languages l
-ON l.id = vl.language_id;
+ON vl.language_id = l.id;
 
--- display the most spoken language amongst the volunteers
-SELECT MAX(l.language) AS `Most Spoken Language`
+-- display the volunteer who speaks the most languages
+SELECT MAX(l.language) AS "Most Spoken Language"
 FROM volunteers_languages vl
 JOIN languages l
-ON l.id = vl.language_id;
+ON vl.language_id = l.id;
 
--- display the least spoken language amongst the volunteers
-SELECT MIN(l.language) AS `Least Spoken Language`
+-- display the least spoken langauge amongst volunteers
+SELECT MIN(l.language) AS "Least Spoken Language"
 FROM volunteers_languages vl
 JOIN languages l
-ON l.id = vl.language_id;
+ON vl.language_id = l.id;
 
 -- display the total volunteered hours per volunteer
 SELECT v.surname, SUM(vh.hours) AS `Volunteered hours`
@@ -124,7 +116,6 @@ FROM(
     ON v.id = vh.volunteer_id
     GROUP BY vh.volunteer_id
 ) AS Cumulative;
-
 
 -- display the occasion each volunteer put up more than 1O hours per visit
 SELECT 
