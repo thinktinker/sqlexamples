@@ -59,16 +59,16 @@ DROP TABLE IF EXISTS volunteers;
 CREATE TABLE volunteers (
   id INT NOT NULL AUTO_INCREMENT,
   surname VARCHAR(50) NOT NULL,
-  mobile VARCHAR(12) NOT NULL,
+  mobile VARCHAR(15) NOT NULL,
   city_id INT NOT NULL,
   PRIMARY KEY (id)
 );
 
 INSERT INTO volunteers (surname, mobile, city_id) VALUES
-('Kroner', '0865214459',  1),
-('James', '45678912', 2),
-('Dexter', '987654321', 3),
-('Stephen', '65412365', 1);
+('Kroner', '020 1234 5678',  1),
+('James', '020 5678 1234', 2),
+('Dexter', '020 7654 4321', 3),
+('Stephen', '020 4321 8765', 1);
 
 ALTER TABLE volunteers 
 ADD CONSTRAINT fk_volunteerscity FOREIGN KEY (city_id) REFERENCES cities(id);
