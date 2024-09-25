@@ -98,7 +98,7 @@ UPDATE volunteers SET salutation_id = 1 WHERE (id = 4);
 
 ALTER TABLE volunteers ADD CONSTRAINT fk_volunteerssalutations FOREIGN KEY (salutation_id) REFERENCES salutations(id);
 
--- Create a weak relationship (many-many) between volunteers and the language(s) they speak 
+-- Create a relationship table (many-many) between volunteers and the language(s) they speak 
 DROP TABLE IF EXISTS volunteers_languages;
 
 CREATE TABLE volunteers_languages (
