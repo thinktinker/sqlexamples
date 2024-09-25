@@ -36,7 +36,7 @@ INSERT INTO cities (id, city) VALUES
 DROP TABLE IF EXISTS languages;
 
 -- Create the languages table
--- The volunteers table will refer to a privot table (volunteers_languages, below) via volunteer_id 
+-- The volunteers table will refer to a pivot table (volunteers_languages, below) via volunteer_id 
 -- As one volunteer may speak one or more languages
 -- And one language may be spoken by one or more volunteer
 CREATE TABLE languages (
