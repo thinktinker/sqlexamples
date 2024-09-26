@@ -87,11 +87,11 @@ GROUP BY v.surname
 ORDER BY `Volunteered hours` DESC;
 
 -- display the average volunteered hours per volunteer
-SELECT v.id AS `Volunteer ID`, AVG(vh.hours) as `Average Volunteered Hours`, v.surname
+SELECT AVG(vh.hours) AS `Average Volunteered Hours`, v.surname AS `Surname` 
 FROM volunteers v
 JOIN volunteer_hours vh
 ON v.id = vh.volunteer_id
-GROUP BY v.surname;
+GROUP BY `Surname`;
 
 -- display the most hours worked by a volunteer
 SELECT MAX(vh.hours) as `Most Hours Worked`, v.surname
