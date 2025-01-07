@@ -90,5 +90,19 @@ VALUES ("Wagyu Steak", "TBC", 100);
 -- Challenge Statement: How do I delete the record where recipe_name is "Strawberry Pudding"
 
 
--- Challenge Statement: How do I delete a record after the id of the record has been identified
+-- Challenge Statement(s):
+
+-- 1. Ensure category table contains category names "appetiser", "main" and "dessert";
+-- 2. For any not found, insert these category names to the category table.
+-- 3. Insert the following into recipe table:
+
+-- recipe_name: "Chicken Cordon Bleu"
+-- recipe_description: "4 boneless skinless chicken, salt to taste, pepper o taste, 1 tablespoon garlic powder, 1 tablespoon onion powder, 16 slices swiss cheese, 1/2 lb ham(225 g)thinly sliced, peanut oil or vegetable oil for frying, 1 cup all-purpose flour(125 g), 4 eggs beaten, 2 cups panko bread crumbs(100 g)"
+-- category: main
+
+-- recipe_name: "Tiramisu"
+-- description: "Dutch processed cocoa powder, espresso (2 shots), vanilla extract (1 g), 5 pasteurized eggs, sugar (1/2 cup), kosher salt (2 tspn), Mascarpone cheese (1 cup), Heavy cream (1/2 cup)"
+-- category: dessert
+
+
 
