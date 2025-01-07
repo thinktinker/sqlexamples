@@ -54,7 +54,7 @@ CREATE TABLE recipedb.recipe(
 	recipe_name VARCHAR(255) DEFAULT NULL,
 	recipe_description LONGTEXT DEFAULT NULL,
 	created_at DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	category_id INT DEFAULT NULL,
+	category_id INT,
 	CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES recipedb.category(id)
 );
 
