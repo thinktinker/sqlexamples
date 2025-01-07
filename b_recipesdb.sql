@@ -11,7 +11,7 @@ USE recipedb;
 DROP TABLE IF EXISTS recipedb.category;
 
 -- Create table recipedb.category
-CREATE TABLE recipedb2.category(
+CREATE TABLE recipedb.category(
 id INT NOT NULL AUTO_INCREMENT,
 category_name VARCHAR(45) DEFAULT NULL,
 created_at DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
