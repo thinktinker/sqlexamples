@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS volunteersdb.volunteer (
 );
 
 -- Insert values to volunteers table
-INSERT INTO volunteer (surname, mobile, city_id) VALUES
+INSERT INTO volunteersdb.volunteer (surname, mobile, city_id) VALUES
 ('Kroner', '020 1234 5678',  1),    -- London
 ('James', '020 5678 1234', 2),      -- Bristol
 ('Dexter', '020 7654 4321', 3),     -- Hove
@@ -67,8 +67,8 @@ CREATE TABLE volunteersdb.salutation (
     PRIMARY KEY(id)
 );
 
--- Insert values to salutations table
-INSERT INTO salutation (id, salutation) VALUES
+-- Insert values to salutation table
+INSERT INTO volunteersdb.salutation (id, salutation_name) VALUES
 (1, 'Mr'),
 (2, 'Miss'),
 (3, 'Mrs');
