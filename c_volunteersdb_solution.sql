@@ -1,129 +1,150 @@
 -- Active: 1715564057998@@127.0.0.1@3306@volunteersdb
-SELECT * FROM salutations;
-SELECT * FROM languages;
-SELECT * FROM cities;
-SELECT * FROM volunteers;
-SELECT * FROM volunteers_languages;
-SELECT * FROM volunteer_hours;
+SELECT * FROM salutation;
+SELECT * FROM language;
+SELECT * FROM city;
+SELECT * FROM volunteer;
+SELECT * FROM volunteer_language;
+SELECT * FROM volunteer_hour;
+
 
 -- display the surname, mobile and city from volunteers and cities table
-SELECT v.surname, v.mobile, c.city
-FROM volunteers v, cities c
+SELECT v.surname, v.mobile, c.city_name
+FROM volunteer v, city c
 WHERE v.city_id = c.id;
 
 -- display the surname, mobile and city of each volunteer, using a JOIN
-SELECT v.surname, v.mobile, c.city
-FROM volunteers v
-JOIN cities c
+SELECT v.surname, v.mobile, c.city_name
+FROM volunteer v
+JOIN city c
 ON v.city_id = c.id;
 
 -- display volunteers who live in London
-SELECT v.surname, v.mobile, c.city
-FROM volunteers v
-JOIN cities c
+SELECT v.surname, v.mobile, c.city_name
+FROM volunteer v
+JOIN city c
 ON v.city_id = c.id
-WHERE c.city = "London";
+WHERE c.city_name = "London";
 
 -- display the surname, mobile and city of each volunteer of those who speak German
 -- volunteer + city + langauges (volunteers_langauges)
-SELECT v.surname, v.mobile, l.language
-FROM volunteers v
-JOIN volunteers_languages vl
+SELECT v.surname, v.mobile, l.language_name
+FROM volunteer v
+JOIN volunteer_language vl
 ON v.id = vl.volunteer_id
-JOIN languages l
+JOIN language l
 ON l.id = vl.language_id
-WHERE LOWER(l.language) = "german";
+WHERE LOWER(l.language_name) = "german";
 
 -- displaying surname, mobile and city of volunters who speak German
 -- using the LIKE keyword with the wildcard character (%)
-SELECT v.surname, v.mobile, l.language
-FROM volunteers v
-JOIN volunteers_languages vl
+SELECT v.surname, v.mobile, l.language_name
+FROM volunteer v
+JOIN volunteer_language vl
 ON v.id = vl.volunteer_id
-JOIN languages l
+JOIN language l
 ON l.id = vl.language_id
-WHERE l.language LIKE "%German%";
+WHERE l.language_name LIKE "%Ger%";
 
 -- display volunteer number in their specific city
 -- using COUNT() aggregate function, GROUP BY must be used
 -- using ORDER BY to list the data in ASC or DESC order (default, ASC)
-SELECT COUNT(v.city_id) AS "Number of Volunteers", c.city
-FROM volunteers v
-JOIN cities c
+SELECT COUNT(v.city_id) AS "Number of Volunteers", c.city_name
+FROM volunteer v
+JOIN city c
 ON v.city_id = c.id
 GROUP BY v.city_id
-ORDER BY c.city;
+ORDER BY c.city_name;
+
 
 -- display the number of distinct cities from volunteers
-SELECT COUNT(DISTINCT c.city) AS "Number of Cities"
-FROM volunteers v
-JOIN cities c
+SELECT COUNT(DISTINCT c.city_name) AS "Number of Cities"
+FROM volunteer v
+JOIN city c
 ON v.city_id = c.id;
 
 -- display the distinct languages spoken by volunteers
-SELECT DISTINCT(l.language)
-FROM volunteers_languages vl
-JOIN languages l
+SELECT DISTINCT(l.language_name)
+FROM volunteer_language vl
+JOIN language l
 ON vl.language_id = l.id;
 
 -- display the volunteer who speaks the most languages
-SELECT MAX(l.language) AS "Most Spoken Language"
-FROM volunteers_languages vl
-JOIN languages l
+SELECT MAX(l.language_name) AS "Most Spoken Language"
+FROM volunteer_language vl
+JOIN language l
 ON vl.language_id = l.id;
 
 -- display the least spoken langauge amongst volunteers
-SELECT MIN(l.language) AS "Least Spoken Language"
-FROM volunteers_languages vl
-JOIN languages l
+SELECT MIN(l.language_name) AS "Least Spoken Language"
+FROM volunteer_language vl
+JOIN language l
 ON vl.language_id = l.id;
 
+
+-- ***********************************************
+
 -- display the total volunteered hours per volunteer
-SELECT v.surname, SUM(vh.hours) AS `Volunteered hours`
-FROM volunteer_hours vh
-JOIN volunteers v
+SELECT v.surname, SUM(vh.hours) AS "Volunteer hours"
+FROM volunteer_hour vh
+JOIN volunteer v
 ON vh.volunteer_id = v.id
 GROUP BY v.surname
-ORDER BY `Volunteered hours` DESC;
+ORDER BY `Volunteer hours` ASC;
 
--- display the average volunteered hours per volunteer
-SELECT AVG(vh.hours) AS `Average Volunteered Hours`, v.surname AS `Surname` 
-FROM volunteers v
-JOIN volunteer_hours vh
+-- display the avg hours performed by each volunteer
+SELECT AVG(vh.hours) AS "Average Volunteer Hours", v.surname AS "Surname"
+FROM volunteer v
+JOIN volunteer_hour vh
 ON v.id = vh.volunteer_id
-GROUP BY `Surname`;
+GROUP BY `Surname`
+ORDER BY `Average Volunteer Hours` DESC;
 
--- display the most hours worked by a volunteer
-SELECT MAX(vh.hours) as `Most Hours Worked`, v.surname
-FROM volunteer_hours vh
-JOIN volunteers v
-ON v.id = vh.volunteer_id
-GROUP BY v.surname;
+-- display the most hours worked by each volunteer
+SELECT v.surname, MAX(vh.hours) AS "Most Hours Worked"
+FROM volunteer_hour vh
+JOIN volunteer v
+ON vh.volunteer_id = v.id
+GROUP BY v.surname
+ORDER BY `Most Hours Worked` DESC;
 
--- display the least hours worked by a volunteer
-SELECT MIN(vh.hours) as `Least Hours Worked`, v.surname
-FROM volunteer_hours vh
-JOIN volunteers v
-ON v.id = vh.volunteer_id
-GROUP BY v.surname;
+-- display the least hours worked by each volunteer
+SELECT v.surname, MIN(vh.hours) AS "Least Hours Worked"
+FROM volunteer_hour vh
+JOIN volunteer v
+ON vh.volunteer_id = v.id
+GROUP BY v.surname
+ORDER BY `Least Hours Worked`;
 
--- display the cumulative volunteer hours from all volunteers
+-- display the culmulative hours worked from all volunteers
+-- using a subquery
 SELECT SUM(`Total Hours Volunteered`) AS "Cumulative Volunteer Hours"
 FROM(
-    SELECT SUM(vh.hours) as `Total Hours Volunteered`
-    FROM volunteers v
-    JOIN volunteer_hours vh
+    SELECT SUM(vh.hours) AS "Total Hours Volunteered"
+    FROM volunteer v
+    JOIN volunteer_hour vh
     ON v.id = vh.volunteer_id
     GROUP BY vh.volunteer_id
 ) AS Cumulative;
 
--- display the occasion each volunteer put up more than 1O hours per visit
-SELECT 
-v.surname,
-SUM(CASE WHEN vh.hours > 10 THEN 1 ELSE 0 END) AS `Occasions volunteered hours > 10`
-FROM volunteers v
-JOIN volunteer_hours vh
+SELECT SUM(hours) AS "Cumulative Volunteer Hours"
+FROM volunteer_hour;
+
+-- display the occasion each volunteer puts up more than 10 hours per visit
+SELECT v.surname,
+SUM(CASE WHEN vh.hours > 10 THEN 1 ELSE 0 END) AS "Occasions volunteered > 10 hours"
+FROM volunteer v
+JOIN volunteer_hour vh
 ON v.id = vh.volunteer_id
 GROUP BY v.surname;
 
-
+-- Display volunteers who speak MORE THAN ONE language
+SELECT COUNT(l.language_name) AS "Languages Spoken", v.surname
+FROM volunteer v 
+JOIN volunteer_language vl
+ON v.id = vl.volunteer_id
+JOIN language l
+ON l.id = vl.language_id
+GROUP BY v.surname
+HAVING COUNT(l.language_name) > 1
+ORDER BY COUNT(v.salutation_id) ASC
+LIMIT 10;
