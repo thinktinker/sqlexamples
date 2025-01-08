@@ -145,6 +145,4 @@ ON v.id = vl.volunteer_id
 JOIN language l
 ON l.id = vl.language_id
 GROUP BY v.surname
-HAVING COUNT(l.language_name) > 1
-ORDER BY COUNT(v.salutation_id) ASC
-LIMIT 10;
+HAVING COUNT(l.language_name) > 1;
