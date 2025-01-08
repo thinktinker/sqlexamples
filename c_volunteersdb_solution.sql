@@ -68,7 +68,7 @@ FROM volunteer_language vl
 JOIN language l
 ON vl.language_id = l.id;
 
--- display the volunteer who speaks the most languages
+-- display the language that is most spoken
 SELECT MAX(l.language_name) AS "Most Spoken Language"
 FROM volunteer_language vl
 JOIN language l
