@@ -88,7 +88,7 @@ SELECT v.surname, SUM(vh.hours) AS "Volunteer hours"
 FROM volunteer_hour vh
 JOIN volunteer v
 ON vh.volunteer_id = v.id
-GROUP BY v.surname
+GROUP BY v.surname WITH ROLLUP
 ORDER BY `Volunteer hours` ASC;
 
 -- display the avg hours performed by each volunteer
