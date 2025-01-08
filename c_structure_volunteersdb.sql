@@ -124,4 +124,4 @@ INSERT INTO volunteersdb.volunteer_hour (volunteer_id, hours) VALUES
 (2, 32),    -- James, 32 hours
 (3, 11),    -- Dexter, 11 hours
 (3, 7),     -- Dexter, 7 hours
-(3, 5);
+(3, 5);     -- Dexter, 5 hours
