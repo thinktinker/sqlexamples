@@ -45,5 +45,5 @@ WHERE id = 1;
 
 ROLLBACK;							-- The ROLLBACK here will undo all previous changes unless a COMMIT is executed.
 
-SET AUTOCOMMIT = 1;						-- turn back on auto commit (so that changes and are permanent)
+SET AUTOCOMMIT = 1;						-- turn back on auto commit (so that changes are permanent)
 
