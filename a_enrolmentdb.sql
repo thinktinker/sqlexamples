@@ -1,18 +1,21 @@
 USE enrolmentdb;
 
 CREATE TABLE student(
-	student_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    student_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
     course_id INT
 );
 
 CREATE TABLE course(
-	course_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    course_id INT PRIMARY KEY,
     course_code VARCHAR(5) UNIQUE,
     title VARCHAR(200),
     student_id INT
 );
+
+ALTER TABLE course
+MODIFY COLUMN course_id NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE student 										# Add referential integrity for student table (foreign key ref. course table)
 ADD CONSTRAINT fk_course_id
