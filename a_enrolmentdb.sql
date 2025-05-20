@@ -17,7 +17,7 @@ CREATE TABLE course(
 );
 
 ALTER TABLE course
-MODIFY COLUMN course_id NOT NULL AUTO_INCREMENT;
+MODIFY COLUMN course_id INT NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE student 										# Add referential integrity for student table (foreign key ref. course table)
 ADD CONSTRAINT fk_course_id
