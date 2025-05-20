@@ -1,3 +1,5 @@
+CREATE DATABASE enrolmentdb;
+
 USE enrolmentdb;
 
 CREATE TABLE student(
