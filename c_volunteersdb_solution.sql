@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS volunteersdb.volunteer_language (
 -- Insert values to volunteer_language table
 INSERT INTO volunteersdb.volunteer_language (volunteer_id, language_id) VALUES
 (1, 1), -- Kroner, German
-(1, 2), -- James, English
+(1, 2), -- Kroner, English
 (2, 2), -- James, English
 (3, 1), -- Dexter, German
 (3, 2), -- Dexter, English
